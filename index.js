@@ -12,7 +12,10 @@ const ExpressErorr = require('./utils/ExpressError');
 const User = require('./models/user');
 
 const userRoutes = require('./routes/user');
-const googleLoginRoutes = require('./routes/auth');
+const googleLoginRoutes = require('./routes/google');
+const kakaoLoginRoutes = require('./routes/kakao');
+
+const PORT = 8080;
 
 mongoose.connect('mongodb://127.0.0.1:27017/ahrkrth', {
     useNewUrlParser: true,
@@ -46,14 +49,17 @@ const sessionConfig = {
 
 app.use(session(sessionConfig));
 app.use(flash());
-app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
 passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.serializeUser(function (user, done) {
+    done(null, user.id);
+});
+passport.deserializeUser(function (id, done) {
+    done(null, id);
+});
 
 app.use((req, res, next) => {
     console.log(req.session)
@@ -63,12 +69,13 @@ app.use((req, res, next) => {
     next();
 })
 
+app.get('/', (req, res) => {
+    res.send('홈페이지 입니다. 안녕하세요!');
+});
+
 app.use('/', userRoutes);
 app.use('/', googleLoginRoutes);
-
-app.get('/', (req, res) => {
-    res.send('홈페이지 입니다.');
-});
+app.use('/', kakaoLoginRoutes);
 
 app.all('*', (req, res, next) => {
     next(new ExpressErorr('페이지를 찾을 수 없습니다.', 404));
@@ -80,6 +87,6 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err });
 });
 
-app.listen(3000, () => {
-    console.log('listening...');
+app.listen(PORT, () => {
+    console.log(`listening on ${PORT}`);
 })
