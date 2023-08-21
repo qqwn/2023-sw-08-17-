@@ -17,14 +17,14 @@ const kakaoLoginRoutes = require('./routes/kakao');
 
 const PORT = 8080;
 
-mongoose.connect('mongodb://127.0.0.1:27017/ahrkrth', {
+mongoose.connect('mongodb://127.0.0.1:27017/ahrkrth?authSource=admin', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
-    console.log("Database connected");
+    console.log("Database connected!");
 });
 const app = express();
 
@@ -42,8 +42,8 @@ const sessionConfig = {
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
-        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-        maxAge: 1000*60*60*24*7
+        expires: Date.now() + 1000 * 60 * 60 * 24,
+        maxAge: 1000*60*60*24
     }
 }
 
@@ -85,6 +85,7 @@ app.use((err, req, res, next) => {
     const { statusCode = 500 } = err;
     if (!err.message) err.message = '에러가 발생했습니다.';
     res.status(statusCode).render('error', { err });
+    return;
 });
 
 app.listen(PORT, () => {

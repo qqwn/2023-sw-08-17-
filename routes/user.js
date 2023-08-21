@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router({mergeParams : true});
 const passport = require('passport');
 const User = require('../models/user');
 const catchAsync = require('../models/user');
@@ -11,10 +11,11 @@ router.get('/register', (req, res) => {
 
 router.post('/register', async (req, res, next) => {
     try {
-        const { username, password } = req.body;
-        const user = new User({ username });
+        const { username, password, name, email } = req.body;
+        const user = new User({ username, email, name });
         console.log(user);
         const registeredUser = await User.register(user, password);
+        console.log("1");
         req.login(registeredUser, (err) => {
             if (err) return next(err);
             res.send('회원가입 및 로그인');
@@ -22,19 +23,23 @@ router.post('/register', async (req, res, next) => {
             //res.redirect('/campgrounds');
         })
     } catch (e) {
-        req.flash('error', e.message);
-        //res.redirect('register');
+        // req.flash('error', e.message);
+        console.log(`${e.message}`);
+        res.redirect('register');
+        return;
     }
 });
 
 router.get('/login', (req, res) => {
     res.send('로그인해주세요');
 })
+
 router.post('/login', storeReturnTo, passport.authenticate('local', {failureFlash: true,failureRedirect: '/login'}), (req, res) => {
     //req.flash('success', '환영합니다. 로그인이 완료되었습니다!');
     const redirectUrl = res.locals.returnTo || '/';
     res.send('로그인이 완료되었습니다.');
 });
+
 router.get('/logout', isLoggedIn, (req, res) => {
     req.logout(function (err) {
         if (err) {
