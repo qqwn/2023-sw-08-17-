@@ -14,6 +14,8 @@ const User = require('./models/user');
 const userRoutes = require('./routes/user');
 const googleLoginRoutes = require('./routes/google');
 const kakaoLoginRoutes = require('./routes/kakao');
+const userPageRoutes = require('./routes/userpage');
+const codeRankingRoutes = require('./routes/codeRanking');
 
 const PORT = 8080;
 
@@ -69,13 +71,18 @@ app.use((req, res, next) => {
     next();
 })
 
-app.get('/', (req, res) => {
+app.get('/', async(req, res) => {
     res.send('홈페이지 입니다. 안녕하세요!');
+    
 });
 
 app.use('/', userRoutes);
 app.use('/', googleLoginRoutes);
 app.use('/', kakaoLoginRoutes);
+app.use('/', userPageRoutes);
+app.use('/', codeRankingRoutes);
+
+
 
 app.all('*', (req, res, next) => {
     next(new ExpressErorr('페이지를 찾을 수 없습니다.', 404));
