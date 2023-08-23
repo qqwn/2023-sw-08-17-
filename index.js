@@ -10,12 +10,15 @@ const LocalStrategy = require('passport-local');
 
 const ExpressErorr = require('./utils/ExpressError');
 const User = require('./models/user');
+const CodeRanking = require('./models/codeRanking');
 
 const userRoutes = require('./routes/user');
 const googleLoginRoutes = require('./routes/google');
 const kakaoLoginRoutes = require('./routes/kakao');
 const userPageRoutes = require('./routes/userpage');
 const codeRankingRoutes = require('./routes/codeRanking');
+const swaggerRouter = require("./routes/swagger");
+
 
 const PORT = 8080;
 
@@ -73,16 +76,14 @@ app.use((req, res, next) => {
 
 app.get('/', async(req, res) => {
     res.send('홈페이지 입니다. 안녕하세요!');
-    
 });
+swaggerRouter(app);
 
 app.use('/', userRoutes);
-app.use('/', googleLoginRoutes);
-app.use('/', kakaoLoginRoutes);
+app.use('/auth/google', googleLoginRoutes);
+app.use('/auth/kakao', kakaoLoginRoutes);
 app.use('/', userPageRoutes);
 app.use('/', codeRankingRoutes);
-
-
 
 app.all('*', (req, res, next) => {
     next(new ExpressErorr('페이지를 찾을 수 없습니다.', 404));

@@ -20,7 +20,7 @@ router.post('/register', async (req, res, next) => {
             if (err) return next(err);
             res.send('회원가입 및 로그인');
             // req.flash('success', 'Welcome');
-            //res.redirect('/campgrounds');
+            //res.redirect('/');
         })
     } catch (e) {
         // req.flash('error', e.message);
@@ -35,7 +35,6 @@ router.get('/login', (req, res) => {
 })
 
 router.post('/login', storeReturnTo, passport.authenticate('local', {failureFlash: true,failureRedirect: '/login'}), (req, res) => {
-    //req.flash('success', '환영합니다. 로그인이 완료되었습니다!');
     const redirectUrl = res.locals.returnTo || '/';
     res.send('로그인이 완료되었습니다.');
 });

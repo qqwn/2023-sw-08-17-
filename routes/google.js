@@ -24,11 +24,11 @@ passport.use(
     )
 );
 
-router.get("/auth/google", passport.authenticate("google", {
+router.get("/", passport.authenticate("google", {
     scope: ["email", "profile"]
 }));
 
-router.get("/auth/google/callback", passport.authenticate("google", {
+router.get("/callback", passport.authenticate("google", {
     successRedirect: "/",
     failureRedirect: "/login"
 }));
