@@ -7,7 +7,7 @@ const KAKAO_CLIENT_ID = '0cf16336a335544632f32669ab7689ab';
 
 passport.use(
     new KakaoStrategy({
-        callbackURL: '/auth/kakao/callback',
+        callbackURL: '/callback',
         clientID: KAKAO_CLIENT_ID, 
     }, 
     async (accessToken, refreshToken, profile, done) => {
@@ -17,9 +17,9 @@ passport.use(
     }
 ));
 
-router.get('/auth/kakao', passport.authenticate('kakao'));
+router.get('/', passport.authenticate('kakao'));
 
-router.get('/auth/kakao/callback', passport.authenticate('kakao', {
+router.get('/callback', passport.authenticate('kakao', {
     failureRedirect: '/login',
   }), (req, res) => {
     res.redirect('/');

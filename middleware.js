@@ -14,3 +14,13 @@ module.exports.storeReturnTo = (req, res, next) => {
     }
     next();
 }
+
+module.exports.isAuthor = async (req, res, next) => {
+    const { id } = req.params;
+    const codeRanking = await codeRanking.findById(id);
+    if (!codeRanking.author.equals(req.user._id)) {
+        req.flash('error', 'You do not have permission to do that!');
+        return res.redirect(`/campgrounds/${id}`);
+    }
+    next();
+}

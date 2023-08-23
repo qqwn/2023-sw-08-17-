@@ -59,12 +59,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
 passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(function (user, done) {
-    done(null, user.id);
-});
-passport.deserializeUser(function (id, done) {
-    done(null, id);
-});
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
     console.log(req.session)
