@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
-const CodeRanking = require('../models/codeRanking');
-const User = require('../models/user');
-const { isLoggedIn } = require('../middleware');
+const CodeRanking = require('../../models/codeRanking');
+const User = require('../../models/user');
+const { isLoggedIn } = require('../../middleware');
 const UserInfoError = require('passport-google-oauth20/lib/errors/userinfoerror');
-const catchAsync = require('../utils/catchAsync');
-const { castObject } = require('../models/user');
-const codeRanking = require('../models/codeRanking');
+const catchAsync = require('../../utils/catchAsync');
+const { castObject } = require('../../models/user');
+const codeRanking = require('../../models/codeRanking');
 
 all_tier = ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Ruby']
 all_subtier = ['V', "IV", 'III', 'II', 'I']
@@ -46,7 +46,7 @@ router.get('/', catchAsync(async (req, res) => {
     res.send('백준 랭킹입니다. 랭킹 등록을 위해 로그인을 진행해주세요.');
 }));
 
-router.post('/', catchAsync(async (req, res) => {
+router.post('/', isLoggedIn, catchAsync(async (req, res) => {
     try {
         const { solveAcHandle } = req.body;
         const isUser = await CodeRanking.findOne({ username: solveAcHandle })
@@ -58,23 +58,22 @@ router.post('/', catchAsync(async (req, res) => {
         const data = await getSolvedacUserData(solveAcHandle);
         const tier = await calculateSolvedacTier(data.tier);
         const datt = await CodeRanking.find();
-        console.log(datt.length);
         const datas = new CodeRanking({ username: data.handle, rank: data.rank, tier, author: req.user._id });
         await datas.save();
-        const dattt = await CodeRanking.find();
-        console.log(dattt.length);
-        
-        return res.redirect('/codeRanking');
+        let codeDb = await CodeRanking.find();
+        let codeDbs = codeDb.sort((a, b) => (a.rank - b.rank));
+        await codeDbs.save();
+        return res.redirect('/cR');
     } catch (e) {
         res.send(e.message);
     }
 }));
 
-router.delete('/:id', catchAsync(async (req, res) => {
+router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const _id = req.params.id;
     await CodeRanking.findOneAndDelete({ author: { _id } });
     req.flash('success', 'Successfully deleted review')
-    res.redirect('/codeRanking');
+    res.redirect('/cR');
 }))
 
 module.exports = router

@@ -16,7 +16,8 @@ const userRoutes = require('./routes/user');
 const googleLoginRoutes = require('./routes/google');
 const kakaoLoginRoutes = require('./routes/kakao');
 const userPageRoutes = require('./routes/userpage');
-const codeRankingRoutes = require('./routes/codeRanking');
+const codeRankingRoutes = require('./routes/rankings/code');
+const workoutRankingRoutes = require('./routes/rankings/workout');
 const swaggerRouter = require("./routes/swagger");
 
 
@@ -63,7 +64,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
-    console.log(req.session)
+    //console.log(req.session)
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
@@ -79,7 +80,8 @@ app.use('/', userRoutes);
 app.use('/auth/google', googleLoginRoutes);
 app.use('/auth/kakao', kakaoLoginRoutes);
 app.use('/', userPageRoutes);
-app.use('/codeRanking', codeRankingRoutes);
+app.use('/cR', codeRankingRoutes);
+app.use('/wR', workoutRankingRoutes);
 
 app.all('*', (req, res, next) => {
     next(new ExpressErorr('페이지를 찾을 수 없습니다.', 404));
