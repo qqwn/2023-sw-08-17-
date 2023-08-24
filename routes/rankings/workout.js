@@ -45,9 +45,3 @@ router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
 }))
 
 module.exports = router;
-
-
-
-// Time
-// Rank
-// Owner
