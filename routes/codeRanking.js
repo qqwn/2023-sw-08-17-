@@ -40,13 +40,13 @@ const calculateSolvedacTier = async idx => {
     return `${all_tier[tier]} ${all_subtier[subtier]}`
 }
 
-router.get('/codeRanking', catchAsync(async (req, res) => {
+router.get('/', catchAsync(async (req, res) => {
     const CodeRankings = await CodeRanking.find();
     console.log(CodeRankings);
     res.send('백준 랭킹입니다. 랭킹 등록을 위해 로그인을 진행해주세요.');
 }));
 
-router.post('/codeRanking', catchAsync(async (req, res) => {
+router.post('/', catchAsync(async (req, res) => {
     try {
         const { solveAcHandle } = req.body;
         const isUser = await CodeRanking.findOne({ username: solveAcHandle })
@@ -57,15 +57,20 @@ router.post('/codeRanking', catchAsync(async (req, res) => {
         }
         const data = await getSolvedacUserData(solveAcHandle);
         const tier = await calculateSolvedacTier(data.tier);
-        const datas = new CodeRanking({ username: data.handle, rank: data.rank, tier , author : req.user._id});
+        const datt = await CodeRanking.find();
+        console.log(datt.length);
+        const datas = new CodeRanking({ username: data.handle, rank: data.rank, tier, author: req.user._id });
         await datas.save();
+        const dattt = await CodeRanking.find();
+        console.log(dattt.length);
+        
         return res.redirect('/codeRanking');
     } catch (e) {
         res.send(e.message);
     }
 }));
 
-router.delete('/codeRanking/:id', catchAsync(async (req, res) => {
+router.delete('/:id', catchAsync(async (req, res) => {
     const _id = req.params.id;
     await CodeRanking.findOneAndDelete({ author: { _id } });
     req.flash('success', 'Successfully deleted review')

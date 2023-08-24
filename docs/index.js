@@ -2,6 +2,8 @@ const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
 const Swagger = require("../handler/swagger");
 const auth = require("./api/auth/index");
+const user = require('./api/user/index');
+
 
 class ApiDocs {
   #apiDocOption;
@@ -10,6 +12,7 @@ class ApiDocs {
   constructor() {
     this.#apiDocOption = {
       ...auth,
+      ...user,
     };
 
     this.#swagger = new Swagger();

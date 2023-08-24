@@ -1,8 +1,8 @@
 module.exports = {
-    "/auth/kakao": {
+    "/auth/google": {
       get: {
         tags: ["Auth Controller"],
-        summary: "사용자 kakao로그인",
+        summary: "사용자 google로그인",
         description: "사용자 회원가입(email, password)",
         requestBody: {
           content: {
@@ -26,7 +26,7 @@ module.exports = {
         },
         responses: {
           200: {
-            description: "사용자 kakao로그인 성공",
+            description: "사용자 google로그인 성공",
             content: {
               "application/json": {
                 schema: {
@@ -58,7 +58,7 @@ module.exports = {
             },
           },
           401: {
-            description: 'kakao 로그인 실패',
+            description: 'google 로그인 실패',
             content: {
               "application/json": {
                 schema: {

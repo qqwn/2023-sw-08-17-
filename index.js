@@ -79,7 +79,7 @@ app.use('/', userRoutes);
 app.use('/auth/google', googleLoginRoutes);
 app.use('/auth/kakao', kakaoLoginRoutes);
 app.use('/', userPageRoutes);
-app.use('/', codeRankingRoutes);
+app.use('/codeRanking', codeRankingRoutes);
 
 app.all('*', (req, res, next) => {
     next(new ExpressErorr('페이지를 찾을 수 없습니다.', 404));

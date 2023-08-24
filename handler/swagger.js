@@ -1,16 +1,24 @@
 const swaggerOpenApiVersion = "3.0.0";
 
 const swaggerInfo = {
-  title: "Swagger-Hanlder",
+  title: "Ranking API",
   version: "0.0.1",
   description: "",
 };
 
 const swaggerTags = [
   {
-    name: "User",
-    description: "사용자 API",
+    name: "Auth Controller",
+    description: "auth apis",
   },
+  {
+    name: "Ranking Controller",
+    description: "ranking apis"
+  },
+  {
+    name: 'User Controller',
+    description: "user apis"
+  }
 ];
 
 const swaggerSchemes = ["http", "https"];
@@ -27,7 +35,7 @@ const swaggerProduces = ["application/json"];
 
 const swaggerServers = [
   {
-    url: "http://localhost:3000",
+    url: "http://localhost:8080",
     description: "로컬 서버",
   },
 ];

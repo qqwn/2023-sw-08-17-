@@ -1,23 +1,32 @@
 module.exports = {
-    "/auth/kakao": {
-      get: {
-        tags: ["Auth Controller"],
-        summary: "사용자 kakao로그인",
-        description: "사용자 회원가입(email, password)",
+    "/register": {
+      post: {
+        tags: ["User Controller"],
+        summary: "사용자 회원가입 페이지",
+        description: "사용자 회원가입(id, password, email, name)",
         requestBody: {
           content: {
             "application/json": {
               schema: {
                 properties: {
-                  email: {
+                  username: {
                     type: "string",
-                    description: "사용자 이메일",
-                    example: "aaa@example.com",
+                    description: "사용자 id",
+                    example: "qwer1234",
                   },
                   password: {
                     type: "string",
                     description: "사용자 패스워드",
                     example: "123456789",
+                  },
+                  name: {
+                      type: 'String',
+                      description: "사용자 이름"
+                  },
+                  email: {
+                    type: "string",
+                    description: "사용자 이메일",
+                    example: "1234@email.com",
                   },
                 },
               },
@@ -26,7 +35,7 @@ module.exports = {
         },
         responses: {
           200: {
-            description: "사용자 kakao로그인 성공",
+            description: "사용자 회원가입 성공",
             content: {
               "application/json": {
                 schema: {
@@ -58,7 +67,7 @@ module.exports = {
             },
           },
           401: {
-            description: 'kakao 로그인 실패',
+            description: '회원가입 실패',
             content: {
               "application/json": {
                 schema: {
