@@ -15,9 +15,10 @@ const CodeRanking = require('./models/codeRanking');
 const userRoutes = require('./routes/user');
 const googleLoginRoutes = require('./routes/google');
 const kakaoLoginRoutes = require('./routes/kakao');
-const userPageRoutes = require('./routes/userpage');
 const codeRankingRoutes = require('./routes/rankings/code');
 const workoutRankingRoutes = require('./routes/rankings/workout');
+const alcoholRankingRoutes = require('./routes/rankings/alcohol');
+const gradeRankingRoutes = require('./routes/rankings/grade');
 const swaggerRouter = require("./routes/swagger");
 
 
@@ -79,9 +80,10 @@ swaggerRouter(app);
 app.use('/', userRoutes);
 app.use('/auth/google', googleLoginRoutes);
 app.use('/auth/kakao', kakaoLoginRoutes);
-app.use('/', userPageRoutes);
 app.use('/cR', codeRankingRoutes);
 app.use('/wR', workoutRankingRoutes);
+app.use('/gr', gradeRankingRoutes);
+app.use('/ar', alcoholRankingRoutes);
 
 app.all('*', (req, res, next) => {
     next(new ExpressErorr('페이지를 찾을 수 없습니다.', 404));
