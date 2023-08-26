@@ -3,6 +3,7 @@ const swaggerJsDoc = require("swagger-jsdoc");
 const Swagger = require("../handler/swagger");
 const auth = require("./api/auth/index");
 const user = require('./api/user/index');
+const ranking = require('./api/ranking');
 
 
 class ApiDocs {
@@ -13,6 +14,7 @@ class ApiDocs {
     this.#apiDocOption = {
       ...auth,
       ...user,
+      ...ranking,
     };
 
     this.#swagger = new Swagger();

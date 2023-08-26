@@ -3,8 +3,11 @@ const User = require('../models/user');
 module.exports.register = async (req, res, next) => {
     try {
         const { username, password, name, email } = req.body;
+        const isInUser = await User.findOne({ username });
+        if (isInUser) {
+            return res.send('이미 존재하는 아이디입니다!');
+        }
         const user = new User({ username, email, name });
-        console.log(user);
         const registeredUser = await User.register(user, password);
         req.login(registeredUser, (err) => {
             if (err) return next(err);
