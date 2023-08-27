@@ -19,7 +19,7 @@ const codeRankingRoutes = require('./routes/rankings/code');
 const workoutRankingRoutes = require('./routes/rankings/workout');
 const alcoholRankingRoutes = require('./routes/rankings/alcohol');
 const gradeRankingRoutes = require('./routes/rankings/grade');
-const swaggerRouter = require("./routes/swagger");
+//const swaggerRouter = require("./routes/swagger");
 
 
 const PORT = 8080;
@@ -75,7 +75,7 @@ app.use((req, res, next) => {
 app.get('/', async(req, res) => {
     res.send('홈페이지 입니다. 안녕하세요!');
 });
-swaggerRouter(app);
+//swaggerRouter(app);
 
 app.use('/', userRoutes);
 app.use('/auth/google', googleLoginRoutes);
