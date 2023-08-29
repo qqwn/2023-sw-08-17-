@@ -34,14 +34,13 @@ module.exports.loginRender = (req, res) => {
 module.exports.login = (req, res) => {
     const redirectUrl = res.locals.returnTo || '/';
     res.send('로그인이 완료되었습니다.');
-}
+};
 
 module.exports.logout = (req, res) => {
     req.logout(function (err) {
         if (err) {
             return next(err);
         }
-        req.flash('success', 'Goodbye!');
         res.send('로그아웃이 성공적으로 진행되었습니다.');
     });
 }
