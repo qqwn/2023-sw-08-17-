@@ -33,9 +33,9 @@ const calculateSolvedacTier = async idx => {
 }
 
 module.exports.codeRankingRender = async (req, res) => {
-    const CodeRankings = await CodeRanking.find();
-    console.log(CodeRankings);
-    res.send('백준 랭킹입니다. 랭킹 등록을 위해 로그인을 진행해주세요.');
+    const codeRankings = await CodeRanking.find();
+    console.log(codeRankings);
+    res.send(codeRankings);
 }
 
 module.exports.codeRanking = async (req, res) => {

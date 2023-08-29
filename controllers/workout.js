@@ -1,9 +1,9 @@
 const WorkoutRanking = require('../models/workoutRanking');
 
 module.exports.workoutRankingRender = async (req, res) => {
-    const WorkoutRankings = await WorkoutRanking.find();
-    console.log(WorkoutRankings);
-    res.send('운동 랭킹입니다. 랭킹 등록을 위해 로그인을 진행해주세요.');
+    const workoutRankings = await WorkoutRanking.find();
+    console.log(workoutRankings);
+    res.send(workoutRankings);
 }
 
 module.exports.workoutRanking = async (req, res) => {

@@ -3,7 +3,7 @@ const AlcoholRanking = require('../models/alcoholRanking');
 module.exports.alcoholRankingRender = async (req, res) => {
     const alcoholRankings = await AlcoholRanking.find();
     console.log(alcoholRankings);
-    res.send('알코올 랭킹입니다. 랭킹 등록을 위해 로그인을 진행해주세요.');
+    res.send(alcoholRankings);
 };
 
 module.exports.alcoholRanking = async (req, res) => {
@@ -31,6 +31,5 @@ module.exports.alcoholRanking = async (req, res) => {
 module.exports.alcoholRankingDelete = async (req, res) => {
     const _id = req.params.id;
     await AlcoholRanking.findOneAndDelete({ owner: { _id } });
-    req.flash('success', 'Successfully deleted review')
     res.redirect('/aR');
 };

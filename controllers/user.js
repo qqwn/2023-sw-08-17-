@@ -11,12 +11,10 @@ module.exports.register = async (req, res, next) => {
         const registeredUser = await User.register(user, password);
         req.login(registeredUser, (err) => {
             if (err) return next(err);
-            res.send('회원가입 및 로그인');
             // req.flash('success', 'Welcome');
-            //res.redirect('/');
+            res.redirect('/');
         })
     } catch (e) {
-        // req.flash('error', e.message);
         console.log(`${e.message}`);
         res.redirect('register');
         return;
