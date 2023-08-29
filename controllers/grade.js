@@ -3,7 +3,7 @@ const GradeRanking = require('../models/gradeRanking');
 module.exports.gradeRankingRander = async (req, res) => {
     const gradeRankings = await GradeRanking.find();
     console.log(gradeRankings);
-    res.send('알코올 랭킹입니다. 랭킹 등록을 위해 로그인을 진행해주세요.');
+    res.send(gradeRankings);
 }
 
 module.exports.gradeRanking = async (req, res) => {
