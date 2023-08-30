@@ -45,7 +45,7 @@ module.exports.codeRanking = async (req, res) => {
         if(isUser) {
             //req.flash('error', '하나의 계정 당 하나의 아이디만 확인이 가능합니다.');
             console.log('하나의 계정 당 하나의 아이디만 등록 가능합니다.');
-            return res.redirect('/codeRanking');
+            return res.redirect('/cR');
         }
         const data = await getSolvedacUserData(solveAcHandle);
         const tier = await calculateSolvedacTier(data.tier);
@@ -54,6 +54,7 @@ module.exports.codeRanking = async (req, res) => {
         let codeDb = await CodeRanking.find();
         let codeDbs = codeDb.sort((a, b) => (a.rank - b.rank));
         await codeDbs.save();
+        console.log(codeDbs);
         return res.redirect('/cR');
     } catch (e) {
         res.send(e.message);
